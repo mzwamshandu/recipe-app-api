@@ -14,7 +14,7 @@ class PublicIngredientsApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-    
+
     '''def test_login_required(self):
         # Test that login is required to access the endpoint
         res = self.client.get(INGREDIENTS_URL)
@@ -32,7 +32,7 @@ class PrivateIngredientsApiTests(TestCase):
             'testpassword'
         )
         self.client.force_authenticate(self.user)
-    
+
     def test_retrieve_ingredient_list(self):
         # Test retrieving a list of ingredients
         Ingredient.objects.create(user=self.user, name='Kale')
@@ -44,7 +44,7 @@ class PrivateIngredientsApiTests(TestCase):
         serializer = IngredientSerializer(ingredient, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
-    
+
     def test_ingredient_limited_to_user(self):
         # Test the ingredients for the authenticated user are returned
         user2 = get_user_model().objects.create_user(
@@ -52,7 +52,7 @@ class PrivateIngredientsApiTests(TestCase):
             'testpassword'
         )
         Ingredient.objects.create(user=user2, name='Vinegar')
-        ingredient  = Ingredient.objects.create(user=self.user, name='Tumeric')
+        ingredient = Ingredient.objects.create(user=self.user, name='Tumeric')
 
         res = self.client.get(INGREDIENTS_URL)
 
@@ -71,7 +71,7 @@ class PrivateIngredientsApiTests(TestCase):
         ).exists()
 
         self.assertTrue(exists)
-    
+
     def test_create_ingredient_invalid(self):
         # Test creating invalid ingredient fails
         payload = {'name': ''}
